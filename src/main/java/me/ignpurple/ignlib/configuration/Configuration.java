@@ -11,11 +11,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 
 public abstract class Configuration {
-    private ConfigurationManager configurationManager;
-    private ConfigLoader configLoader;
-
     private final String configName;
     private final Path dataFolder;
+
+    private ConfigurationManager configurationManager;
+    private ConfigLoader configLoader;
 
     public Configuration(ConfigurationManager configurationManager, Path path, ConfigType configType, String configName) {
         this.configurationManager = configurationManager;
@@ -31,15 +31,29 @@ public abstract class Configuration {
         }
     }
 
+    /**
+     * Get the name of the configuration file
+     *
+     * @return The name of the file
+     */
     public String getConfigName() {
         return this.configName;
     }
 
+    /**
+     * Gets the folder where the configuration file will be stored
+     *
+     * @return The path of the folder
+     */
     public Path getDataFolder() {
         return this.dataFolder;
     }
 
-    public <T> void load() {
+    /**
+     * Load all the data from the configuration file with
+     * class fields which have the {@link ConfigurationField} annotation
+     */
+    public void load() {
         try {
             for (final Field field : this.getClass().getDeclaredFields()) {
                 field.setAccessible(true);
@@ -62,8 +76,11 @@ public abstract class Configuration {
         }
     }
 
+    /**
+     * Saves all the data to the configuration file with
+     * class fields which have the {@link ConfigurationField} annotation
+     */
     public void save() {
-
         try {
             for (final Field field : this.getClass().getDeclaredFields()) {
                 field.setAccessible(true);
@@ -85,6 +102,9 @@ public abstract class Configuration {
         }
     }
 
+    /**
+     * Re-loads the data from the configuration file
+     */
     public void reload() {
         this.configLoader.load();
         this.load();

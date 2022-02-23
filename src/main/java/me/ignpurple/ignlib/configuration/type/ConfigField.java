@@ -7,10 +7,23 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Credit to Redempt for allowing me to use
+ * this class to differentiate between generic types
+ * and easily integrate it into my TypeAdapter System
+ *
+ * @author Redempt#0001
+ */
 public class ConfigField<T> {
     private final Class<T> clazz;
     private final List<ConfigField<?>> componentTypes;
 
+    /**
+     * Creates a ConfigType from an arbitrary Type
+     *
+     * @param type The Type
+     * @return A ConfigType representation of the Type
+     */
     public static ConfigField<?> create(Type type) {
         if (type instanceof Class) {
             return create((Class<?>) type, new ArrayList<>());
@@ -18,6 +31,12 @@ public class ConfigField<T> {
         return create(type.getTypeName());
     }
 
+    /**
+     * Gets the ConfigType of a specific Field
+     *
+     * @param field The field
+     * @return A ConfigType for the field
+     */
     public static ConfigField<?> get(Field field) {
         return create(field.getGenericType());
     }
@@ -71,19 +90,36 @@ public class ConfigField<T> {
         return split;
     }
 
+    /**
+     * Constructs a ConfigType from a base class type and a list of component ConfigTypes
+     *
+     * @param clazz          The base class type
+     * @param componentTypes The component types
+     */
     public ConfigField(Class<T> clazz, List<ConfigField<?>> componentTypes) {
         this.clazz = clazz;
         this.componentTypes = componentTypes;
     }
 
+    /**
+     * Constructs a ConfigType with no component types
+     *
+     * @param clazz The class type
+     */
     public ConfigField(Class<T> clazz) {
         this(clazz, new ArrayList<>());
     }
 
+    /**
+     * @return The base type of this ConfigType
+     */
     public Class<T> getType() {
         return this.clazz;
     }
-
+    
+    /**
+     * @return A list of all component types of this ConfigType
+     */
     public List<ConfigField<?>> getComponentTypes() {
         return this.componentTypes;
     }

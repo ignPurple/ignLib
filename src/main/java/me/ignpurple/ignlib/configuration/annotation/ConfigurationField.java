@@ -9,5 +9,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface ConfigurationField {
 
+    /**
+     * @return The field in the configuration where the data will be stored in
+     */
     String path();
 }

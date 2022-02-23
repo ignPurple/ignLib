@@ -27,6 +27,9 @@ public class YAMLConfig implements ConfigLoader {
         this.load();
     }
 
+    /**
+     * Load the Configuration into memory from the file
+     */
     @Override
     public void load() {
         this.yamlConfig = new YamlConfiguration();
@@ -43,6 +46,9 @@ public class YAMLConfig implements ConfigLoader {
         }
     }
 
+    /**
+     * Save the configuration file
+     */
     @Override
     public void save() {
         try {
@@ -52,6 +58,14 @@ public class YAMLConfig implements ConfigLoader {
         }
     }
 
+    /**
+     * Gets a field from a configuration file using a {@link CustomFieldLoader} if present
+     *
+     * @param customFieldLoader  The loader to use to load the field from the configuration
+     * @param configurationField The field annotation to use for getting the path
+     * @param fieldValue         The value to set in the config if it isn't present
+     * @return The value from the configuration file
+     */
     @Override
     public Object getOrCreate(CustomFieldLoader customFieldLoader, ConfigurationField configurationField, Object fieldValue) {
         final String path = configurationField.path();
@@ -65,6 +79,13 @@ public class YAMLConfig implements ConfigLoader {
         return fieldValue;
     }
 
+    /**
+     * Sets a field inside a configuration file using a {@link CustomFieldLoader} if present
+     *
+     * @param customFieldLoader  The loader to use to save the field to the configuration
+     * @param configurationField The field annotation to use for getting the path
+     * @param fieldValue         The value to set in the configuration
+     */
     @Override
     public void set(CustomFieldLoader customFieldLoader, ConfigurationField configurationField, Object fieldValue) {
         final String path = configurationField.path();
