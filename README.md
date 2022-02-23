@@ -13,6 +13,6 @@ A useful library to help you develop your own custom plugins easier a faster!
 <dependency>
     <groupId>com.github.ignPurple</groupId>
     <artifactId>ignLib</artifactId>
-    <version>1.0</version>
+    <version>v1.1.0</version>
 </dependency>
 ```
