@@ -1,6 +1,9 @@
 package me.ignpurple.ignlib.test;
 
+import me.ignpurple.ignlib.configuration.manager.ConfigurationManager;
 import me.ignpurple.ignlib.test.config.TestConfig;
+import me.ignpurple.ignlib.test.config.adapter.WorldAdapter;
+import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class IgnLib extends JavaPlugin {
@@ -12,10 +15,12 @@ public class IgnLib extends JavaPlugin {
             return;
         }
 
-        final TestConfig testConfig = new TestConfig(this);
-        testConfig.load();
+        ConfigurationManager configurationManager = new ConfigurationManager();
+        configurationManager.registerTypeAdapater(World.class, new WorldAdapter());
+        configurationManager.registerConfiguration(new TestConfig(this, configurationManager));
+        configurationManager.loadAll();
 
-        System.out.println(testConfig.getTestA());
-        System.out.println(testConfig.getTestB());
+        final TestConfig testConfig = configurationManager.getConfig(TestConfig.class);
+        System.out.println(testConfig.getWorld().getName());
     }
 }
