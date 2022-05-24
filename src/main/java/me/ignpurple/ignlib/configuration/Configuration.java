@@ -1,7 +1,7 @@
 package me.ignpurple.ignlib.configuration;
 
+import me.ignpurple.ignlib.configuration.adapter.CustomFieldLoader;
 import me.ignpurple.ignlib.configuration.annotation.ConfigurationField;
-import me.ignpurple.ignlib.configuration.loader.CustomFieldLoader;
 import me.ignpurple.ignlib.configuration.manager.ConfigurationManager;
 import me.ignpurple.ignlib.configuration.type.ConfigLoader;
 import me.ignpurple.ignlib.enums.ConfigType;
@@ -47,6 +47,15 @@ public abstract class Configuration {
      */
     public Path getDataFolder() {
         return this.dataFolder;
+    }
+
+    /**
+     * Gets the configuration manager
+     *
+     * @return The configuration manager instance
+     */
+    public ConfigurationManager getConfigurationManager() {
+        return this.configurationManager;
     }
 
     /**

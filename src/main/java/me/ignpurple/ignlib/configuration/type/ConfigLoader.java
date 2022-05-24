@@ -1,7 +1,7 @@
 package me.ignpurple.ignlib.configuration.type;
 
+import me.ignpurple.ignlib.configuration.adapter.CustomFieldLoader;
 import me.ignpurple.ignlib.configuration.annotation.ConfigurationField;
-import me.ignpurple.ignlib.configuration.loader.CustomFieldLoader;
 
 public interface ConfigLoader {
 

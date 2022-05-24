@@ -6,7 +6,7 @@
 
     <groupId>com.github.ignPurple</groupId>
     <artifactId>ignLib</artifactId>
-    <version>v1.1.0</version>
+    <version>v1.3.0</version>
 
     <repositories>
         <repository>
@@ -34,6 +34,11 @@
                     <source>8</source>
                     <target>8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.3.2</version>
             </plugin>
         </plugins>
     </build>

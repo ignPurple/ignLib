@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 public @interface ConfigurationField {
 
     /**
-     * @return The field in the configuration where the data will be stored in
+     * @return The field in the configuration where the data will be stored
      */
     String path();
 }

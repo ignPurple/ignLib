@@ -1,8 +1,8 @@
 package me.ignpurple.ignlib.configuration.type.impl;
 
 import me.ignpurple.ignlib.configuration.Configuration;
+import me.ignpurple.ignlib.configuration.adapter.CustomFieldLoader;
 import me.ignpurple.ignlib.configuration.annotation.ConfigurationField;
-import me.ignpurple.ignlib.configuration.loader.CustomFieldLoader;
 import me.ignpurple.ignlib.configuration.type.ConfigLoader;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -19,9 +19,9 @@ public class YAMLConfig implements ConfigLoader {
     public YAMLConfig(Configuration configuration) {
         this.configuration = configuration;
 
-        final File file = configuration.getDataFolder().toFile();
-        if (!file.exists()) {
-            file.mkdirs();
+        this.file = configuration.getDataFolder().toFile();
+        if (!this.file.exists()) {
+            this.file.mkdirs();
         }
 
         this.load();
@@ -71,10 +71,10 @@ public class YAMLConfig implements ConfigLoader {
         final String path = configurationField.path();
         if (this.yamlConfig.contains(configurationField.path())) {
             final Object configValue = this.yamlConfig.get(path);
-            return customFieldLoader == null ? configValue : customFieldLoader.load(configValue);
+            return customFieldLoader == null ? configValue : customFieldLoader.deserialize(this.configuration.getConfigurationManager(), fieldValue, configValue);
         }
 
-        final Object loadedObject = customFieldLoader == null ? fieldValue : customFieldLoader.save(fieldValue);
+        final Object loadedObject = customFieldLoader == null ? fieldValue : customFieldLoader.serialize(this.configuration.getConfigurationManager(), fieldValue);
         this.yamlConfig.set(path, loadedObject);
         return fieldValue;
     }
@@ -89,7 +89,7 @@ public class YAMLConfig implements ConfigLoader {
     @Override
     public void set(CustomFieldLoader customFieldLoader, ConfigurationField configurationField, Object fieldValue) {
         final String path = configurationField.path();
-        final Object loadedObject = customFieldLoader == null ? fieldValue : customFieldLoader.save(fieldValue);
+        final Object loadedObject = customFieldLoader == null ? fieldValue : customFieldLoader.serialize(this.configuration.getConfigurationManager(), fieldValue);
         this.yamlConfig.set(path, loadedObject);
     }
 }

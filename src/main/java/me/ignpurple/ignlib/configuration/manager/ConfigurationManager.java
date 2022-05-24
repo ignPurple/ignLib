@@ -1,23 +1,30 @@
 package me.ignpurple.ignlib.configuration.manager;
 
 import me.ignpurple.ignlib.configuration.Configuration;
-import me.ignpurple.ignlib.configuration.loader.CustomFieldLoader;
-import me.ignpurple.ignlib.configuration.loader.DefaultFieldLoader;
+import me.ignpurple.ignlib.configuration.adapter.CustomFieldLoader;
+import me.ignpurple.ignlib.configuration.adapter.DefaultFieldLoader;
+import me.ignpurple.ignlib.configuration.adapter.defaults.ListAdapter;
+import me.ignpurple.ignlib.configuration.adapter.defaults.WorldAdapter;
 import me.ignpurple.ignlib.configuration.type.ConfigField;
+import org.bukkit.World;
 
 import java.util.HashMap;
 import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ConfigurationManager {
     private final Map<Class<? extends Configuration>, Configuration> configurations;
     private final Map<ConfigField<?>, CustomFieldLoader> typeAdapters;
 
-    private static final DefaultFieldLoader DEFAULT_FIELD_LOADER = new DefaultFieldLoader();
+    public static final DefaultFieldLoader DEFAULT_FIELD_LOADER = new DefaultFieldLoader();
 
     public ConfigurationManager() {
         this.configurations = new IdentityHashMap<>();
         this.typeAdapters = new HashMap<>();
+
+        this.registerTypeAdapater(List.class, new ListAdapter());
+        this.registerTypeAdapater(World.class, new WorldAdapter());
     }
 
     /**
@@ -55,7 +62,7 @@ public class ConfigurationManager {
      * @return The loader to use for the object
      */
     public CustomFieldLoader getLoader(Class<?> type) {
-        return this.typeAdapters.get(ConfigField.create(type));
+        return this.typeAdapters.getOrDefault(ConfigField.create(type), DEFAULT_FIELD_LOADER);
     }
 
     /**

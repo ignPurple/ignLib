@@ -1,4 +1,6 @@
-package me.ignpurple.ignlib.configuration.loader;
+package me.ignpurple.ignlib.configuration.adapter;
+
+import me.ignpurple.ignlib.configuration.manager.ConfigurationManager;
 
 public interface CustomFieldLoader {
 
@@ -8,7 +10,7 @@ public interface CustomFieldLoader {
      * @param object The object stored in memory
      * @return The new converted object to save to the configuration
      */
-    Object save(Object object);
+    Object serialize(ConfigurationManager configurationManager, Object object);
 
     /**
      * When the object is loaded from the configuration file
@@ -16,6 +18,6 @@ public interface CustomFieldLoader {
      * @param object The object in the configuration
      * @return The new converted object to load into memory
      */
-    Object load(Object object);
+    Object deserialize(ConfigurationManager configurationManager, Object fieldValue, Object object);
 
 }
