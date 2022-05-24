@@ -22,7 +22,7 @@ public class ListAdapter implements CustomFieldLoader {
     @Override
     public Object deserialize(ConfigurationManager configurationManager, Object fieldValue, Object object) {
         final List<Object> fieldList = (List<Object>) fieldValue;
-        final ParameterizedType parameterizedType = (ParameterizedType) fieldList;
+        final ParameterizedType parameterizedType = (ParameterizedType) fieldList.getClass().getGenericSuperclass();
         final List<Object> objects = (List<Object>) object;
         final List<Object> deserializedObjects = new ArrayList<>();
         for (final Object obj : objects) {
