@@ -8,10 +8,7 @@ import me.ignpurple.ignlib.configuration.adapter.defaults.WorldAdapter;
 import me.ignpurple.ignlib.configuration.type.ConfigField;
 import org.bukkit.World;
 
-import java.util.HashMap;
-import java.util.IdentityHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ConfigurationManager {
     private final Map<Class<? extends Configuration>, Configuration> configurations;
@@ -24,6 +21,7 @@ public class ConfigurationManager {
         this.typeAdapters = new HashMap<>();
 
         this.registerTypeAdapater(List.class, new ListAdapter());
+        this.registerTypeAdapater(ArrayList.class, new ListAdapter());
         this.registerTypeAdapater(World.class, new WorldAdapter());
     }
 

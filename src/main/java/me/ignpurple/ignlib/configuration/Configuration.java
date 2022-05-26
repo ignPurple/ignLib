@@ -78,7 +78,7 @@ public abstract class Configuration {
                 final ConfigurationField configurationField = field.getAnnotation(ConfigurationField.class);
                 final Class<? extends CustomFieldLoader> fieldLoaderClass = configurationField.fieldLoader();
                 final CustomFieldLoader customFieldLoader;
-                if (fieldLoaderClass.isInstance(DefaultFieldLoader.class)) {
+                if (fieldLoaderClass == DefaultFieldLoader.class) {
                     customFieldLoader = this.configurationManager.getLoader(field.getType());
                 } else {
                     customFieldLoader = fieldLoaderClass.newInstance();

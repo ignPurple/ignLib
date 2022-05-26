@@ -15,7 +15,9 @@ public class ListAdapter implements CustomFieldLoader {
     public Object serialize(ConfigurationManager configurationManager, Object object) {
         final List<Object> objects = (List<Object>) object;
         final List<Object> serializedObjects = new ArrayList<>();
+        System.out.println("haha serialize");
         for (final Object obj : objects) {
+            System.out.println(obj.getClass() + " - nerd");
             serializedObjects.add(configurationManager.getLoader(obj.getClass()).serialize(configurationManager, obj));
         }
         return serializedObjects;
