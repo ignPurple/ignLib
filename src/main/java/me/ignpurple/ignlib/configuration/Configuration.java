@@ -84,9 +84,7 @@ public abstract class Configuration {
                     customFieldLoader = fieldLoaderClass.newInstance();
                 }
 
-                System.out.println(customFieldLoader.getClass() + " - " + field.getName());
                 final Object newDeclaration = this.configLoader.getOrCreate(customFieldLoader, configurationField, new ObjectField(field, fieldValue));
-                System.out.println(newDeclaration.getClass() + " - haha");
                 field.set(this, newDeclaration);
             }
         } catch (IllegalAccessException | InstantiationException e) {
