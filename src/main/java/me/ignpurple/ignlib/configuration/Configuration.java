@@ -1,7 +1,9 @@
 package me.ignpurple.ignlib.configuration;
 
 import me.ignpurple.ignlib.configuration.adapter.CustomFieldLoader;
+import me.ignpurple.ignlib.configuration.adapter.DefaultFieldLoader;
 import me.ignpurple.ignlib.configuration.annotation.ConfigurationField;
+import me.ignpurple.ignlib.configuration.field.ObjectField;
 import me.ignpurple.ignlib.configuration.manager.ConfigurationManager;
 import me.ignpurple.ignlib.configuration.type.ConfigLoader;
 import me.ignpurple.ignlib.enums.ConfigType;
@@ -74,11 +76,20 @@ public abstract class Configuration {
                 final Object fieldValue = field.get(this);
 
                 final ConfigurationField configurationField = field.getAnnotation(ConfigurationField.class);
-                final CustomFieldLoader customFieldLoader = this.configurationManager.getLoader(field.getType());
-                final Object newDeclaration = this.configLoader.getOrCreate(customFieldLoader, configurationField, fieldValue);
+                final Class<? extends CustomFieldLoader> fieldLoaderClass = configurationField.fieldLoader();
+                final CustomFieldLoader customFieldLoader;
+                if (fieldLoaderClass.isInstance(DefaultFieldLoader.class)) {
+                    customFieldLoader = this.configurationManager.getLoader(field.getType());
+                } else {
+                    customFieldLoader = fieldLoaderClass.newInstance();
+                }
+
+                System.out.println(customFieldLoader.getClass() + " - " + field.getName());
+                final Object newDeclaration = this.configLoader.getOrCreate(customFieldLoader, configurationField, new ObjectField(field, fieldValue));
+                System.out.println(newDeclaration.getClass() + " - haha");
                 field.set(this, newDeclaration);
             }
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         } finally {
             this.configLoader.save();

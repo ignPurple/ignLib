@@ -1,5 +1,6 @@
 package me.ignpurple.ignlib.configuration.adapter;
 
+import me.ignpurple.ignlib.configuration.field.ObjectField;
 import me.ignpurple.ignlib.configuration.manager.ConfigurationManager;
 
 public interface CustomFieldLoader {
@@ -18,6 +19,6 @@ public interface CustomFieldLoader {
      * @param object The object in the configuration
      * @return The new converted object to load into memory
      */
-    Object deserialize(ConfigurationManager configurationManager, Object fieldValue, Object object);
+    Object deserialize(ConfigurationManager configurationManager, ObjectField fieldValue, Object object);
 
 }

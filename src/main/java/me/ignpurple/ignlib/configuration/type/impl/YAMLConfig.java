@@ -3,6 +3,7 @@ package me.ignpurple.ignlib.configuration.type.impl;
 import me.ignpurple.ignlib.configuration.Configuration;
 import me.ignpurple.ignlib.configuration.adapter.CustomFieldLoader;
 import me.ignpurple.ignlib.configuration.annotation.ConfigurationField;
+import me.ignpurple.ignlib.configuration.field.ObjectField;
 import me.ignpurple.ignlib.configuration.type.ConfigLoader;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -67,14 +68,14 @@ public class YAMLConfig implements ConfigLoader {
      * @return The value from the configuration file
      */
     @Override
-    public Object getOrCreate(CustomFieldLoader customFieldLoader, ConfigurationField configurationField, Object fieldValue) {
+    public Object getOrCreate(CustomFieldLoader customFieldLoader, ConfigurationField configurationField, ObjectField fieldValue) {
         final String path = configurationField.path();
         if (this.yamlConfig.contains(configurationField.path())) {
             final Object configValue = this.yamlConfig.get(path);
             return customFieldLoader == null ? configValue : customFieldLoader.deserialize(this.configuration.getConfigurationManager(), fieldValue, configValue);
         }
 
-        final Object loadedObject = customFieldLoader == null ? fieldValue : customFieldLoader.serialize(this.configuration.getConfigurationManager(), fieldValue);
+        final Object loadedObject = customFieldLoader == null ? fieldValue.getFieldObject() : customFieldLoader.serialize(this.configuration.getConfigurationManager(), fieldValue.getFieldObject());
         this.yamlConfig.set(path, loadedObject);
         return fieldValue;
     }

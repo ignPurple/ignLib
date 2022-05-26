@@ -1,6 +1,7 @@
 package me.ignpurple.ignlib.configuration.adapter.defaults;
 
 import me.ignpurple.ignlib.configuration.adapter.CustomFieldLoader;
+import me.ignpurple.ignlib.configuration.field.ObjectField;
 import me.ignpurple.ignlib.configuration.manager.ConfigurationManager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -14,7 +15,7 @@ public class WorldAdapter implements CustomFieldLoader {
     }
 
     @Override
-    public Object deserialize(ConfigurationManager configurationManager, Object fieldValue, Object object) {
+    public Object deserialize(ConfigurationManager configurationManager, ObjectField fieldValue, Object object) {
         final String worldName = (String) object;
         try {
             final World world = Bukkit.getWorld(worldName);
