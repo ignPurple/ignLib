@@ -77,7 +77,7 @@ public class YAMLConfig implements ConfigLoader {
 
         final Object loadedObject = customFieldLoader == null ? fieldValue.getFieldObject() : customFieldLoader.serialize(this.configuration.getConfigurationManager(), fieldValue.getFieldObject());
         this.yamlConfig.set(path, loadedObject);
-        return fieldValue;
+        return fieldValue.getFieldObject();
     }
 
     /**
