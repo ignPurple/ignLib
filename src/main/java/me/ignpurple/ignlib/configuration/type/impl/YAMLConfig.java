@@ -72,6 +72,7 @@ public class YAMLConfig implements ConfigLoader {
         final String path = configurationField.path();
         if (this.yamlConfig.contains(configurationField.path())) {
             final Object configValue = this.yamlConfig.get(path);
+            System.out.println(customFieldLoader.getClass());
             return customFieldLoader == null ? configValue : customFieldLoader.deserialize(this.configuration.getConfigurationManager(), fieldValue, configValue);
         }
 

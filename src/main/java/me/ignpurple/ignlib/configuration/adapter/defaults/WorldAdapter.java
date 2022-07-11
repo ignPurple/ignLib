@@ -6,16 +6,15 @@ import me.ignpurple.ignlib.configuration.manager.ConfigurationManager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-public class WorldAdapter implements CustomFieldLoader {
+public class WorldAdapter implements CustomFieldLoader<World> {
 
     @Override
-    public Object serialize(ConfigurationManager configurationManager, Object object) {
-        final World world = (World) object;
+    public Object serialize(ConfigurationManager configurationManager, World world) {
         return world.getName();
     }
 
     @Override
-    public Object deserialize(ConfigurationManager configurationManager, ObjectField fieldValue, Object object) {
+    public World deserialize(ConfigurationManager configurationManager, ObjectField fieldValue, Object object) {
         final String worldName = (String) object;
         try {
             final World world = Bukkit.getWorld(worldName);

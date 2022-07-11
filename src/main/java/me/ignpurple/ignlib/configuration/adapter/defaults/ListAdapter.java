@@ -9,11 +9,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListAdapter implements CustomFieldLoader {
+public class ListAdapter implements CustomFieldLoader<List<Object>> {
 
     @Override
-    public Object serialize(ConfigurationManager configurationManager, Object object) {
-        final List<Object> objects = (List<Object>) object;
+    public Object serialize(ConfigurationManager configurationManager, List<Object> objects) {
         final List<Object> serializedObjects = new ArrayList<>();
         for (final Object obj : objects) {
             serializedObjects.add(configurationManager.getLoader(obj.getClass()).serialize(configurationManager, obj));
@@ -22,7 +21,7 @@ public class ListAdapter implements CustomFieldLoader {
     }
 
     @Override
-    public Object deserialize(ConfigurationManager configurationManager, ObjectField fieldValue, Object object) {
+    public List<Object> deserialize(ConfigurationManager configurationManager, ObjectField fieldValue, Object object) {
         final List<Object> fieldList = (List<Object>) fieldValue.getFieldObject();
         final ParameterizedType parameterizedType = (ParameterizedType) fieldList.getClass().getGenericSuperclass();
         final List<Object> objects = (List<Object>) object;
