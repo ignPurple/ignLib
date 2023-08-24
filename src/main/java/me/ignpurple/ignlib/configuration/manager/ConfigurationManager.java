@@ -7,22 +7,51 @@ import me.ignpurple.ignlib.configuration.adapter.defaults.ListAdapter;
 import me.ignpurple.ignlib.configuration.adapter.defaults.WorldAdapter;
 import me.ignpurple.ignlib.configuration.type.ConfigField;
 import org.bukkit.World;
+import org.bukkit.plugin.Plugin;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class ConfigurationManager {
+    private final Plugin plugin;
     private final Map<Class<? extends Configuration>, Configuration> configurations;
     private final Map<ConfigField<?>, CustomFieldLoader> typeAdapters;
 
     public static final DefaultFieldLoader DEFAULT_FIELD_LOADER = new DefaultFieldLoader();
 
-    public ConfigurationManager() {
+    public ConfigurationManager(Plugin plugin) {
+        this.plugin = plugin;
         this.configurations = new IdentityHashMap<>();
         this.typeAdapters = new HashMap<>();
 
         this.registerTypeAdapater(List.class, new ListAdapter());
         this.registerTypeAdapater(ArrayList.class, new ListAdapter());
         this.registerTypeAdapater(World.class, new WorldAdapter());
+    }
+
+    /**
+     * Saves a File from the Plugin jar or creates it if it doesn't exist
+     *
+     * @param fileName The name of the file to copy from the Plugin Jar
+     */
+    public File copyOrCreate(String fileName) {
+        final File file = new File(this.plugin.getDataFolder(), fileName);
+        if (file.exists()) {
+            return file;
+        }
+
+        try {
+            this.plugin.saveResource(fileName, false);
+        } catch (Exception exception) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return file;
     }
 
     /**

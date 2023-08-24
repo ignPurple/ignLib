@@ -13,7 +13,7 @@ public class IgnLib extends JavaPlugin {
             return;
         }
 
-        ConfigurationManager configurationManager = new ConfigurationManager();
+        ConfigurationManager configurationManager = new ConfigurationManager(this);
         configurationManager.registerConfiguration(new TestConfig(this, configurationManager));
         configurationManager.loadAll();
 

@@ -34,13 +34,10 @@ public class YAMLConfig implements ConfigLoader {
     @Override
     public void load() {
         this.yamlConfig = new YamlConfiguration();
-        this.file = new File(this.file, this.configuration.getConfigName() + ".yml");
+        this.yamlConfig.options().copyHeader(true);
 
+        this.file = this.configuration.getConfigurationManager().copyOrCreate(this.configuration.getConfigName() + ".yml");
         try {
-            if (!this.file.exists()) {
-                this.file.createNewFile();
-            }
-
             this.yamlConfig.load(this.file);
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
